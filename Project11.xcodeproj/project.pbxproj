@@ -59,6 +59,7 @@
 		73370F84279848010096F1D0 /* ballGreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ballGreen@2x.png"; sourceTree = "<group>"; };
 		73370F94279944D40096F1D0 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		73370F95279944D40096F1D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		73370F982799FE810096F1D0 /* MagicParticles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MagicParticles.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				73370F76279848010096F1D0 /* FireParticles.sks */,
+				73370F982799FE810096F1D0 /* MagicParticles.sks */,
 				73370F94279944D40096F1D0 /* MyParticle.sks */,
 				73370F95279944D40096F1D0 /* Assets.xcassets */,
 				73370F77279848010096F1D0 /* ballBlue@2x.png */,

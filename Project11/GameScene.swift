@@ -11,7 +11,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel: SKLabelNode!
     var editLabel: SKLabelNode!
     
-    var balls = ["ballBlue", "ballYellow", "ballPurple", "ballGrey", "ballRed", "ballCyan", "ballGreen"]
+    var ballColours = ["ballBlue", "ballYellow", "ballPurple", "ballGrey", "ballRed", "ballCyan", "ballGreen"]
+    
+    var ballsLeft = 5
 
     var score = 0 {
         didSet {
@@ -71,6 +73,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if objects.contains(editLabel) {
                 editingMode.toggle()
+                ballsLeft = 5
+                score = 0
 
             } else {
                 if editingMode {
@@ -78,21 +82,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let box = SKSpriteNode(color: UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1), size: size)
                     box.zRotation = CGFloat.random(in: 0...3)
                     box.position = location
-
+                    box.name = "box"
                     box.physicsBody = SKPhysicsBody(rectangleOf: box.size)
                     box.physicsBody?.isDynamic = false
 
                     addChild(box)
                 } else {
-                    balls.shuffle()
-                    let ball = SKSpriteNode(imageNamed: balls[0])
-                    ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
-                    ball.physicsBody!.contactTestBitMask = ball.physicsBody!.collisionBitMask
-                    ball.physicsBody?.restitution = 0.4
-                    ball.position.x = location.x
-                    ball.position.y = 768
-                    ball.name = "ball"
-                    addChild(ball)
+                    if ballsLeft > 0 {
+                        ballColours.shuffle()
+                        let ball = SKSpriteNode(imageNamed: ballColours[0])
+                        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2.0)
+                        ball.physicsBody!.contactTestBitMask = ball.physicsBody!.collisionBitMask
+                        ball.physicsBody?.restitution = 0.4
+                        ball.position.x = location.x
+                        ball.position.y = 768
+                        ball.name = "ball"
+                        addChild(ball)
+                        ballsLeft -= 1
+                    } else {
+                        // game over
+                        print("game over")
+                    }
+                    
                 }
             }
         }
@@ -149,9 +160,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if object.name == "good" {
             destroy(ball: ball)
             score += 1
+            ballsLeft += 1
         } else if object.name == "bad" {
             destroy(ball: ball)
             score -= 1
+            
+        } else if object.name == "box" {
+            destroy(box: object)
         }
     }
 
@@ -164,5 +179,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.removeFromParent()
     }
     
+    func destroy(box: SKNode) {
+        if let magicParticles = SKEmitterNode(fileNamed: "MyParticle") {
+                magicParticles.position = box.position
+                addChild(magicParticles)
+            }
+//        if let fireParticles = SKEmitterNode(fileNamed: "FireParticles") {
+//                fireParticles.position = box.position
+//                addChild(fireParticles)
+//            }
+        box.removeFromParent()
+    }
     
 }
